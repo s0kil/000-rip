@@ -12,6 +12,9 @@ let
             text
             hlint
             p.ihp
+
+            # https://github.com/sgillespie/elocrypt
+            elocrypt
         ];
         otherDeps = p: with p; [
             # Native dependencies, e.g. imagemagick

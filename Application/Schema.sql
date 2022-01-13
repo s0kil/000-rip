@@ -9,7 +9,8 @@ CREATE TABLE links (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     user_id UUID NOT NULL,
     target TEXT NOT NULL,
-    slug TEXT NOT NULL UNIQUE
+    slug TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 CREATE INDEX links_user_id_index ON links (user_id);
 CREATE INDEX links_slug_index ON links (slug);

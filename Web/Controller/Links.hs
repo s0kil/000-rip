@@ -6,6 +6,8 @@ import Web.View.Links.New
 import Web.View.Links.Edit
 import Web.View.Links.Show
 
+import Data.Elocrypt
+
 instance Controller LinksController where
     beforeAction = do
         ensureIsUser
@@ -14,6 +16,7 @@ instance Controller LinksController where
         links <-
             query @Link
                 |> filterWhere (#userId, get #id currentUser)
+                |> orderByDesc #createdAt
                 |> fetch
         render IndexView { .. }
 
@@ -44,7 +47,15 @@ instance Controller LinksController where
         let link = newRecord @Link
         link
             |> buildLink
-            |> validateIsUnique #slug
+            |> (\link ->
+                if isEmpty (get #slug link)
+                then do
+                    newSlug <- generateRandomWord
+                    link |> set #slug (cs newSlug) |> pure
+                else
+                    pure link
+                )
+            >>= validateIsUnique #slug
             >>= ifValid \case
                 Left link -> render NewView { .. }
                 Right link -> do
@@ -65,8 +76,10 @@ instance Controller LinksController where
 
 buildLink link = link
     |> fill @["target","slug"]
-    |> validateField #slug nonEmpty
     |> validateField #target isUrl
     |> set #userId (get #id currentUser)
 
 linkBelongsToUser link = (get #userId link) == (get #id currentUser)
+
+generateRandomWord :: IO String
+generateRandomWord = mkPassword 11 genOptions
