@@ -1,0 +1,5 @@
+.link-target {
+  display: block;
+  max-width: 400px;
+  overflow: auto;
+}

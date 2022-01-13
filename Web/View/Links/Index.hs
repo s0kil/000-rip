@@ -33,7 +33,7 @@ renderLink :: Link -> Html
 renderLink link = [hsx|
     <tr>
         <td>{get #slug link}</td>
-        <td><a href={get #target link} target="_blank" rel="noopener noreferrer">{get #target link}</a></td>
+        <td><a class="link-target" href={get #target link} target="_blank" rel="noopener noreferrer">{get #target link}</a></td>
         <td><a href={shortLink} target="_blank" rel="noopener noreferrer" class="text">{shortName}</a></td>
         <td><button class="btn btn-primary btn-sm" data-clipboard-text={shortLink}>Copy to clipboard</button></td>
         <td><a href={EditLinkAction (get #id link)} class="text-muted">Edit</a></td>
