@@ -30,8 +30,10 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
             </div>
         </nav>
 
-        {renderFlashMessages}
-        {inner}
+        <div class="container">
+            {renderFlashMessages}
+            {inner}
+        </div>
     </div>
 </body>
 |]
@@ -40,6 +42,7 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
             case currentUserOrNothing of
                 Just user ->
                     [hsx|
+                        <a class="btn btn-light" href={LinksAction}>My Links</a>
                         <a class="btn btn-light js-delete js-delete-no-confirm" href={DeleteSessionAction}>Logout</a>
                     |]
                 Nothing ->
@@ -73,6 +76,7 @@ scripts = [hsx|
         <script src={assetPath "/vendor/turbolinksMorphdom.js"}></script>
         <script src={assetPath "/helpers.js"}></script>
         <script src={assetPath "/ihp-auto-refresh.js"}></script>
+        <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
         <script src={assetPath "/app.js"}></script>
     |]
 
