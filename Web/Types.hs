@@ -29,6 +29,8 @@ data LinksController
     = LinksAction
     | NewLinkAction
     | CreateLinkAction
+    | UpdateLinkAction { linkId :: !(Id Link) }
+    | EditLinkAction { linkId :: !(Id Link) }
     | DeleteLinkAction { linkId :: !(Id Link) }
     deriving (Eq, Show, Data)
 

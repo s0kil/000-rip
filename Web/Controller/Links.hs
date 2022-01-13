@@ -3,6 +3,7 @@ module Web.Controller.Links where
 import Web.Controller.Prelude
 import Web.View.Links.Index
 import Web.View.Links.New
+import Web.View.Links.Edit
 
 import Data.Elocrypt
 
@@ -42,6 +43,30 @@ instance Controller LinksController where
                     setSuccessMessage "Link created"
                     redirectTo LinksAction
 
+    action EditLinkAction { linkId } = do
+        link <- fetch linkId
+        render EditView { .. }
+
+    action UpdateLinkAction { linkId } = do
+        link <- fetch linkId
+        link
+            |> buildLink
+            |> (\link ->
+                if isEmpty (get #slug link)
+                then do
+                    newSlug <- generateRandomWord
+                    link |> set #slug (cs newSlug) |> pure
+                else
+                    pure link
+                )
+            >>= validateIsUnique #slug
+            >>= ifValid \case
+                Left link -> render EditView { .. }
+                Right link -> do
+                    link <- link |> updateRecord
+                    setSuccessMessage "Link updated"
+                    redirectTo EditLinkAction { .. }
+
     action DeleteLinkAction { linkId } = do
         link <- fetch linkId
         case (linkBelongsToUser link) of
@@ -50,7 +75,7 @@ instance Controller LinksController where
                 setSuccessMessage "Link deleted"
                 redirectTo LinksAction
             False -> do
-                setSuccessMessage "You rascal"
+                setErrorMessage "You rascal"
                 redirectTo LinksAction
 
 buildLink link = link

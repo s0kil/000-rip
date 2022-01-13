@@ -16,6 +16,7 @@ instance View IndexView where
                         <th>Short Link</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>{forEach links renderLink}</tbody>
@@ -35,6 +36,7 @@ renderLink link = [hsx|
         <td><a href={get #target link} target="_blank" rel="noopener noreferrer">{get #target link}</a></td>
         <td><a href={shortLink} target="_blank" rel="noopener noreferrer" class="text">{shortName}</a></td>
         <td><button class="btn btn-primary btn-sm" data-clipboard-text={shortLink}>Copy to clipboard</button></td>
+        <td><a href={EditLinkAction (get #id link)} class="text-muted">Edit</a></td>
         <td><a href={DeleteLinkAction (get #id link)} class="js-delete text-muted">Delete</a></td>
     </tr>
 |]
