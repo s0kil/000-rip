@@ -10,6 +10,7 @@ import Web.Controller.Links
 import Web.Controller.Users
 import Web.Controller.Static
 import Web.Controller.Sessions
+import Web.Controller.Shortlinks
 
 instance FrontController WebApplication where
     controllers =
@@ -18,6 +19,7 @@ instance FrontController WebApplication where
         -- Generator Marker
         , parseRoute @LinksController
         , parseRoute @UsersController
+        , parseRoute @ShortlinksController
         ]
 
 instance InitControllerContext WebApplication where

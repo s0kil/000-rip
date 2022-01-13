@@ -12,4 +12,5 @@ CREATE TABLE links (
     slug TEXT NOT NULL UNIQUE
 );
 CREATE INDEX links_user_id_index ON links (user_id);
+CREATE INDEX links_slug_index ON links (slug);
 ALTER TABLE links ADD CONSTRAINT links_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;

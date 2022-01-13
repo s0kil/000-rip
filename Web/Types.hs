@@ -39,3 +39,8 @@ data LinksController
     | UpdateLinkAction { linkId :: !(Id Link) }
     | DeleteLinkAction { linkId :: !(Id Link) }
     deriving (Eq, Show, Data)
+
+
+data ShortlinksController
+    = ShortlinkAction { slug :: !(Text) }
+    deriving (Eq, Show, Data)

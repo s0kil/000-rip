@@ -65,6 +65,8 @@ instance Controller LinksController where
 
 buildLink link = link
     |> fill @["target","slug"]
+    |> validateField #slug nonEmpty
+    |> validateField #target isUrl
     |> set #userId (get #id currentUser)
 
 linkBelongsToUser link = (get #userId link) == (get #id currentUser)
