@@ -1,4 +1,5 @@
 module Web.View.Links.Index where
+
 import Web.View.Prelude
 
 data IndexView = IndexView { links :: [Link]  }
@@ -38,5 +39,17 @@ renderLink link = [hsx|
     </tr>
 |]
     where
-        shortName = "000.rip/" <> get #slug link
-        shortLink = "https://000.rip/" <> get #slug link
+        shortName = appBaseUrlShort <> get #slug link
+        shortLink = appBaseUrl <> get #slug link
+
+appBaseUrlShort :: _ => Text
+appBaseUrlShort =
+    case isDevelopment of
+        True -> "localhost:8000/"
+        False -> "000.rip/"
+
+appBaseUrl :: _ => Text
+appBaseUrl =
+    case isDevelopment of
+        True -> "http://localhost:8000/"
+        False -> "https://000.rip/"
