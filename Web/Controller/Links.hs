@@ -3,8 +3,6 @@ module Web.Controller.Links where
 import Web.Controller.Prelude
 import Web.View.Links.Index
 import Web.View.Links.New
-import Web.View.Links.Edit
-import Web.View.Links.Show
 
 import Data.Elocrypt
 
@@ -23,25 +21,6 @@ instance Controller LinksController where
     action NewLinkAction = do
         let link = newRecord
         render NewView { .. }
-
-    -- action ShowLinkAction { linkId } = do
-    --     link <- fetch linkId
-    --     render ShowView { .. }
-
-    -- action EditLinkAction { linkId } = do
-    --     link <- fetch linkId
-    --     render EditView { .. }
-
-    -- action UpdateLinkAction { linkId } = do
-    --     link <- fetch linkId
-    --     link
-    --         |> buildLink
-    --         |> ifValid \case
-    --             Left link -> render EditView { .. }
-    --             Right link -> do
-    --                 link <- link |> updateRecord
-    --                 setSuccessMessage "Link updated"
-    --                 redirectTo EditLinkAction { .. }
 
     action CreateLinkAction = do
         let link = newRecord @Link
