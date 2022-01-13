@@ -18,15 +18,35 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     {stylesheets}
     {scripts}
 
-    <title>{pageTitleOrDefault "App"}</title>
+    <title>{pageTitleOrDefault "000.rip"}</title>
 </head>
 <body>
     <div class="container mt-4">
+        <nav class="navbar navbar-light bg-light justify-content-between mb-4">
+            <a class="navbar-brand" href="/">000.rip</a>
+            <div>
+                {loginOrRegisterLinks}
+
+            </div>
+        </nav>
+
         {renderFlashMessages}
         {inner}
     </div>
 </body>
 |]
+    where
+        loginOrRegisterLinks =
+            case currentUserOrNothing of
+                Just user ->
+                    [hsx|
+                        <a class="btn btn-light js-delete js-delete-no-confirm" href={DeleteSessionAction}>Logout</a>
+                    |]
+                Nothing ->
+                    [hsx|
+                        <a class="btn btn-light" href={NewSessionAction}>Login</a>
+                        <a class="btn btn-light" href={NewUserAction}>Register</a>
+                    |]
 
 -- The 'assetPath' function used below appends a `?v=SOME_VERSION` to the static assets in production
 -- This is useful to avoid users having old CSS and JS files in their browser cache once a new version is deployed
@@ -65,9 +85,5 @@ metaTags :: Html
 metaTags = [hsx|
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta property="og:title" content="App"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="TODO"/>
-    <meta property="og:description" content="TODO"/>
     {autoRefreshMeta}
 |]
